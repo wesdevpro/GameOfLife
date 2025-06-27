@@ -1,0 +1,30 @@
+﻿@page "/";
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas.Canvas2D
+
+<PageTitle>Game of Life</PageTitle>
+
+<section class="section has-text-centered">
+    <h1 class="title is-2">Game of Life</h1>
+</section>
+
+<div class="canvas-wrapper has-text-centered">
+    <BECanvas Width="800" Height="800" @ref="_canvasReference"></BECanvas>
+</div>
+
+@code
+{
+    protected BECanvasComponent _canvasReference;
+    private Canvas2DContext _context;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        this._context = await this._canvasReference.CreateCanvas2DAsync();
+        await this._context.SetFillStyleAsync("green");
+
+        await this._context.FillRectAsync(10, 100, 100, 100);
+
+        await this._context.SetFontAsync("48px serif");
+        await this._context.StrokeTextAsync("What the dev", 10, 100);
+    }
+}
